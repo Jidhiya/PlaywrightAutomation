@@ -3,7 +3,8 @@ from playwright.sync_api import sync_playwright, expect
 def run(p):
     global browser
     global page
-    browser = p.chromium.launch(headless=False)
+    browser = p.chromium.launch(channel = "msedge",headless=False)
+    # browser = p.chromium.launch(headless=False)
     page = browser.new_page()
     launchThePracticeAutomationWebsite()
     testLoginText = page.locator("//h2[text()='Test login']")
@@ -53,6 +54,31 @@ def invalidUPassword():
     page.wait_for_timeout(4000)
     expect(page).to_have_title("Test Login | Practice Test Automation")
 
+def coursesOffered():
+    run(p)
+    loginToTheWebsite("student", "Password123")
+    page.wait_for_timeout(4000)
+    expect(page).to_have_title("Logged In Successfully | Practice Test Automation")
+    page.locator("//a[text()='Courses']").click()
+    page.wait_for_timeout(4000)
+
+def practiceLink():
+    run(p)
+    loginToTheWebsite("student", "Password123")
+    page.wait_for_timeout(4000)
+    expect(page).to_have_title("Logged In Successfully | Practice Test Automation")
+    page.locator("//a[text()='Practice']").click()
+    page.wait_for_timeout(4000)
+
+def home():
+    run(p)
+    loginToTheWebsite("student", "Password123")
+    page.wait_for_timeout(4000)
+    expect(page).to_have_title("Logged In Successfully | Practice Test Automation")
+    page.locator("//a[text()='Home']").click()
+    page.wait_for_timeout(4000)
+
+
 
    
  
@@ -61,6 +87,9 @@ with sync_playwright() as p:
     validUsernameAndPassword()
     invalidUserName()
     invalidUPassword()
+    coursesOffered()
+    practiceLink()
+    home()
     browser.close()
 
  
